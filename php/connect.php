@@ -33,7 +33,8 @@ try {
             // Create table
             $sql = "CREATE TABLE list (
                 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                task VARCHAR(30) NOT NULL
+                task VARCHAR(30) NOT NULL,
+                done BOOLEAN
             )";
             $pdo->exec($sql);
 
