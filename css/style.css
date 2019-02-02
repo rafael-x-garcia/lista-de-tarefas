@@ -79,13 +79,13 @@ span.text-task {
     margin-right: 30px;
 }
 
-span.time-task {
+/* span.time-task {
     color: #777;
     flex: 1;
     margin-right: 30px;
-}
+} */
 
-span.read-btn {
+span.done-btn {
     margin-right: 10px;
     width: 20px;
     height: 20px;
