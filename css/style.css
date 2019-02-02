@@ -65,6 +65,10 @@ body {
     background-color: #42d89e;
 }
 
+.container .header button:focus {
+    outline: 0;
+}
+
 span {
     padding: 0;
 }
@@ -98,7 +102,7 @@ span.done-btn {
     transition: 0.1s;
 }
 
-span.read-btn:hover {
+span.done-btn:hover {
     background-color: #1ee269;
 }
 
