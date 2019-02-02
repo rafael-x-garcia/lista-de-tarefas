@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css?family=Karla');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Karla', sans-serif;
+    background-color: #4e86ee;
+    background: linear-gradient(to bottom, #9be5fd 0%,#70d5f4 40%,#1cebfa 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.container {
+    width: 80%;
+    margin: 40px auto;
+    padding: 20px;
+    box-shadow: 0 10px 30px 10px rgba(0,0,0,0.1);
+    background-color: #fff;
+}
+
+.container .header {
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.container .header h1 {
+    margin-bottom: 40px;
+}
+
+.container .header form {
+    margin-bottom: 20px;
+}
+
+.container .header input {
+    padding: 10px;
+    width: 40%;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 5px;
+    transition: 0.2s;
+}
+
+.container .header input:focus {
+    outline: none;
+    background-color: #e5f8f0;
+}
+
+.container .header button {
+    padding: 11px;
+    border: none;
+    background-color: #159c74;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.5s;
+}
+
+.container .header button:hover {
+    background-color: #42d89e;
+}
+
+span {
+    padding: 0;
+}
+
+span.number-task {
+    margin-right: 30px;
+    flex: 1;
+}
+
+span.text-task {
+    flex: 14;
+    margin-right: 30px;
+}
+
+span.time-task {
+    color: #777;
+    flex: 1;
+    margin-right: 30px;
+}
+
+span.read-btn {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    color: #fff;
+    background-color: #22a052;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1;
+    transition: 0.1s;
+}
+
+span.read-btn:hover {
+    background-color: #1ee269;
+}
+
+span.delete-btn {
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    color: #fff;
+    background-color: #be2828;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1;
+    transition: 0.2s;
+}
+
+span.delete-btn:hover {
+    background-color: #f82f2f;
+}
+
+.list-container {
+    border: 1px solid rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+.list-container ul {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;    
+}
+
+.list-container li {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    transition: 0.15s;
+    border-radius: 5px;
+    cursor: grab;
+}
+
+.list-container li:hover {
+    background-color: #d1f0e8;
+}
+
+/* @media screen and (max-width: 400px) {
+
+} */
