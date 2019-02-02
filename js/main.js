@@ -10,6 +10,10 @@ function checkButton(e) {
         if (task) {
             insertTask(task);
         }
+    } else if (e.target.classList[0] == 'done-btn') {
+        markTaskAsDone(e.target.parentNode.childNodes[1]);
+    } else if (e.target.classList[0] == 'delete-btn') {
+        deleteTask(e.target.parentNode);
     }
 }
 
@@ -117,7 +121,7 @@ function makeTaskEntryObj(taskObj) {
     spanDone.appendChild(doneV);
 
     if (taskObj.done == 1) {
-        newEntry.classList.add('makedAsDone');
+        spanText.classList.add('markedAsDone');
     }
 
     newEntry.appendChild(spanNumber);
@@ -154,6 +158,39 @@ function recreateTaskList(tasksArray) {
     });
 }
 
-// function deleteTask() {}
+function deleteTask(element) {
+    // console.log(element.parentNode);
+    element.parentNode.removeChild(element);
 
-// function markTaskAsDone() {}
+    let id = element.childNodes[0].innerText;
+
+    let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+        }
+    }
+
+    xhr.open('POST', '../todo-list/php/delete-task.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send('id=' + id);
+}
+
+function markTaskAsDone(element) {
+    element.classList.add('markedAsDone');
+
+    let id = element.parentNode.childNodes[0].innerText;
+
+    let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+        }
+    }
+
+    xhr.open("POST", "../todo-list/php/mark-as-done.php", true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send('id=' + id);
+}

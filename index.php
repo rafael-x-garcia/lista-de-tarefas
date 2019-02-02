@@ -23,9 +23,9 @@
 
         <div class="list-container">
             <ul id="todo-list">
-                <!-- <li id="t1" draggable="true"><span class="number-task">1.</span> <span class="text-task">Lavar cachorro </span> <span class="time-task">9:00</span><span class="delete-btn">x</span> <span class="read-btn">v</span></li>
-                <li id="t2" draggable="true"><span class="number-task">2.</span> <span class="text-task">Cozinhar feijão </span> <span class="time-task">14:00</span><span class="delete-btn">x</span> <span class="read-btn">v</span></li>
-                <li id="t3" draggable="true"><span class="number-task">3.</span> <span class="text-task">Assistir TV </span> <span class="time-task">12:00</span><span class="delete-btn">x</span> <span class="read-btn">v</span></li> -->
+                <!-- <li id="t1" draggable="true"><span class="number-task">1.</span> <span class="text-task">Lavar cachorro </span> <span class="time-task">9:00</span><span class="delete-btn">x</span> <span class="done-btn">v</span></li>
+                <li id="t2" draggable="true"><span class="number-task">2.</span> <span class="text-task">Cozinhar feijão </span> <span class="time-task">14:00</span><span class="delete-btn">x</span> <span class="done-btn">v</span></li>
+                <li id="t3" draggable="true"><span class="number-task">3.</span> <span class="text-task">Assistir TV </span> <span class="time-task">12:00</span><span class="delete-btn">x</span> <span class="done-btn">v</span></li> -->
             </ul>
         </div>
     </div>
