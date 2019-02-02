@@ -1,4 +1,5 @@
 // document.getElementById("addBtn").addEventListener("click", insertTask);
+document.addEventListener("DOMContentLoaded", loadTasks);
 document.addEventListener("click", checkButton);
 
 function checkButton(e) {
@@ -14,7 +15,7 @@ function checkButton(e) {
 
 function insertTask(task) {
 
-    let taskEntryRaw = makeTaskEntry(task);
+    let taskEntryRaw = makeTaskEntryText(task);
     let taskEntryText = taskEntryRaw.childNodes[1].innerText;
 
     let xhr = new XMLHttpRequest();
@@ -34,7 +35,8 @@ function insertTask(task) {
 
 // Create new list element and attach it to 
 // the todo-list
-function makeTaskEntry(task) {
+function makeTaskEntryText(task) {
+
     let newEntry = document.createElement("li");
     
     // let attribute = newEntry.createAttribute = "draggable";
@@ -78,6 +80,78 @@ function makeTaskEntry(task) {
     todoList.appendChild(newEntry);
 
     return newEntry;
+}
+
+function makeTaskEntryObj(taskObj) {
+
+    let newEntry = document.createElement("li");
+    
+    // let attribute = newEntry.createAttribute = "draggable";
+    // attribute.value = 'true';
+    newEntry.setAttribute('draggable', 'true');
+    
+
+    let spanNumber = document.createElement('span');
+    spanNumber.setAttribute('class', 'number-task');
+    let number = document.createTextNode(taskObj.id);
+    spanNumber.appendChild(number);
+
+    let spanText = document.createElement('span');
+    spanText.setAttribute('class', 'text-task');
+    let text = document.createTextNode(taskObj.task);
+    spanText.appendChild(text);
+
+    // let spanTime = document.createElement('span');
+    // spanTime.setAttribute('class', 'time-task');
+    // let time = document.createTextNode('9:00');
+    // spanTime.appendChild(time);
+
+    let spanDelete = document.createElement('span');
+    spanDelete.setAttribute('class', 'delete-btn');
+    let deleteX = document.createTextNode('x');
+    spanDelete.appendChild(deleteX);
+
+    let spanDone = document.createElement('span');
+    spanDone.setAttribute('class', 'done-btn');
+    let doneV = document.createTextNode('v');
+    spanDone.appendChild(doneV);
+
+    if (taskObj.done == 1) {
+        newEntry.classList.add('makedAsDone');
+    }
+
+    newEntry.appendChild(spanNumber);
+    newEntry.appendChild(spanText);
+    // newEntry.appendChild(spanTime);
+    newEntry.appendChild(spanDelete);
+    newEntry.appendChild(spanDone);
+
+
+    let todoList = document.getElementById("todo-list");
+    todoList.appendChild(newEntry);
+
+    return newEntry;
+}
+
+function loadTasks() {
+    let xhr = new XMLHttpRequest();
+    let response;
+
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            response = JSON.parse(this.responseText);
+            recreateTaskList(response);
+        }
+    }
+
+    xhr.open("GET", "../todo-list/php/load-tasks.php", true);
+    xhr.send();
+}
+
+function recreateTaskList(tasksArray) {
+    tasksArray.forEach(function(element) {
+        makeTaskEntryObj(element);
+    });
 }
 
 // function deleteTask() {}

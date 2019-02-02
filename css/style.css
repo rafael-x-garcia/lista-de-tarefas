@@ -123,6 +123,10 @@ span.delete-btn:hover {
     background-color: #f82f2f;
 }
 
+.markedAsDone {
+    text-decoration: line-through;
+}
+
 .list-container {
     border: 1px solid rgba(0,0,0,0.1);
     padding: 20px;
