@@ -3,7 +3,7 @@
 require_once('connect.php');
 
 $id = $_POST['id'];
-$done = 1;
+$done = 0;
 
 $sql = "UPDATE list SET done = ? WHERE id = ?";
 

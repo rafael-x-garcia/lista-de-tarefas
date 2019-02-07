@@ -13,7 +13,6 @@ try {
 
     $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $user, $pass, $options);
 
-
 // Create database if it doesn't exist
 } catch(PDOException $e) {
 

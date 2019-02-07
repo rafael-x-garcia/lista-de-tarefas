@@ -1,22 +1,51 @@
-// document.getElementById("addBtn").addEventListener("click", insertTask);
 document.addEventListener("DOMContentLoaded", loadTasks);
 document.addEventListener("click", checkButton);
+document.getElementById("taskInput").addEventListener("keypress", checkKey);
 
+// Check if any button was clicked
 function checkButton(e) {
-    e.preventDefault;
+    e.preventDefault();
 
+    // Check is "Adicionar" button was clicked
     if (e.target.id == 'addBtn') {
+        let task = document.getElementById("taskInput").value;
+
+        // Prevent user from inserting an empty task
+        if (task) {
+            insertTask(task);
+        }
+
+    // Check if "done" button was clicked
+    } else if (e.target.classList[0] == 'done-btn') {
+
+        // Check state of task. If it is done, unmark it,
+        // else the task is marked as done with a strikethrough
+        if (e.target.parentNode.childNodes[1].classList[1] === 'markedAsDone') {
+            unmarkTaskAsDone(e.target.parentNode);
+        } else {
+            markTaskAsDone(e.target.parentNode);
+        }
+
+    // Check if "delete" button was clicked
+    } else if (e.target.classList[0] == 'delete-btn') {
+        deleteTask(e.target.parentNode);
+    } 
+}
+
+// Check if the "ENTER" key was pressed when
+// the input form was in focus
+function checkKey(e) {
+    if (e.keyCode === 13) {
+        e.preventDefault();
         let task = document.getElementById("taskInput").value;
         if (task) {
             insertTask(task);
         }
-    } else if (e.target.classList[0] == 'done-btn') {
-        markTaskAsDone(e.target.parentNode.childNodes[1]);
-    } else if (e.target.classList[0] == 'delete-btn') {
-        deleteTask(e.target.parentNode);
     }
 }
 
+
+// Insert user task into the database
 function insertTask(task) {
 
     let taskEntryRaw = makeTaskEntryText(task);
@@ -24,30 +53,17 @@ function insertTask(task) {
 
     let xhr = new XMLHttpRequest();
 
-    xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-
-        }
-    }
     xhr.open("POST", "../todo-list/php/insert-task.php", true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send("task=" + taskEntryText);
-
-
 }
 
-// Create new list element and attach it to 
-// the todo-list
+// Create new a list element and attach
+// it to the todo-list
 function makeTaskEntryText(task) {
 
     let newEntry = document.createElement("li");
     
-    // let attribute = newEntry.createAttribute = "draggable";
-    // attribute.value = 'true';
-    newEntry.setAttribute('draggable', 'true');
-    
-
     let spanNumber = document.createElement('span');
     spanNumber.setAttribute('class', 'number-task');
     let number = document.createTextNode('#');
@@ -57,11 +73,6 @@ function makeTaskEntryText(task) {
     spanText.setAttribute('class', 'text-task');
     let text = document.createTextNode(task);
     spanText.appendChild(text);
-
-    // let spanTime = document.createElement('span');
-    // spanTime.setAttribute('class', 'time-task');
-    // let time = document.createTextNode('9:00');
-    // spanTime.appendChild(time);
 
     let spanDelete = document.createElement('span');
     spanDelete.setAttribute('class', 'delete-btn');
@@ -75,10 +86,8 @@ function makeTaskEntryText(task) {
 
     newEntry.appendChild(spanNumber);
     newEntry.appendChild(spanText);
-    // newEntry.appendChild(spanTime);
     newEntry.appendChild(spanDelete);
     newEntry.appendChild(spanDone);
-
 
     let todoList = document.getElementById("todo-list");
     todoList.appendChild(newEntry);
@@ -86,14 +95,11 @@ function makeTaskEntryText(task) {
     return newEntry;
 }
 
+// Recreate the task list receiving
+// stored tasks in the database 
 function makeTaskEntryObj(taskObj) {
 
     let newEntry = document.createElement("li");
-    
-    // let attribute = newEntry.createAttribute = "draggable";
-    // attribute.value = 'true';
-    newEntry.setAttribute('draggable', 'true');
-    
 
     let spanNumber = document.createElement('span');
     spanNumber.setAttribute('class', 'number-task');
@@ -104,11 +110,6 @@ function makeTaskEntryObj(taskObj) {
     spanText.setAttribute('class', 'text-task');
     let text = document.createTextNode(taskObj.task);
     spanText.appendChild(text);
-
-    // let spanTime = document.createElement('span');
-    // spanTime.setAttribute('class', 'time-task');
-    // let time = document.createTextNode('9:00');
-    // spanTime.appendChild(time);
 
     let spanDelete = document.createElement('span');
     spanDelete.setAttribute('class', 'delete-btn');
@@ -126,10 +127,8 @@ function makeTaskEntryObj(taskObj) {
 
     newEntry.appendChild(spanNumber);
     newEntry.appendChild(spanText);
-    // newEntry.appendChild(spanTime);
     newEntry.appendChild(spanDelete);
     newEntry.appendChild(spanDone);
-
 
     let todoList = document.getElementById("todo-list");
     todoList.appendChild(newEntry);
@@ -137,12 +136,15 @@ function makeTaskEntryObj(taskObj) {
     return newEntry;
 }
 
+// Load tasks from the database
+// and calls iterator function
 function loadTasks() {
     let xhr = new XMLHttpRequest();
     let response;
 
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
+            // Convert data in JSON format to object type
             response = JSON.parse(this.responseText);
             recreateTaskList(response);
         }
@@ -152,45 +154,52 @@ function loadTasks() {
     xhr.send();
 }
 
+// Iterate every task object and calls makeTaskEntryObj
 function recreateTaskList(tasksArray) {
     tasksArray.forEach(function(element) {
         makeTaskEntryObj(element);
     });
 }
 
+// Delete task from the list and from the database
 function deleteTask(element) {
-    // console.log(element.parentNode);
     element.parentNode.removeChild(element);
 
     let id = element.childNodes[0].innerText;
 
     let xhr = new XMLHttpRequest();
 
-    xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-        }
-    }
-
     xhr.open('POST', '../todo-list/php/delete-task.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send('id=' + id);
 }
 
+// Mark task as done in the list and the database
 function markTaskAsDone(element) {
-    element.classList.add('markedAsDone');
+    element.childNodes[1].classList.add('markedAsDone');
 
-    let id = element.parentNode.childNodes[0].innerText;
+    // Grab task hidden id to help search
+    // the task in the database
+    let id = element.childNodes[0].innerText;
 
     let xhr = new XMLHttpRequest();
 
-    xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-        }
-    }
-
     xhr.open("POST", "../todo-list/php/mark-as-done.php", true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send('id=' + id);
+}
+
+// Unmark task as done in the list and the database 
+function unmarkTaskAsDone(element) {
+    element.childNodes[1].classList.remove('markedAsDone');
+
+    // Grab task hidden id to help search
+    // the task in the database
+    let id = element.childNodes[0].innerText;
+
+    let xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "../todo-list/php/unmark-as-done.php", true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send('id=' + id);
 }

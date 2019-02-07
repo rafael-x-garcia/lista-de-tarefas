@@ -74,6 +74,7 @@ span {
 }
 
 span.number-task {
+    display: none;
     margin-right: 30px;
     flex: 1;
 }
